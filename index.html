@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOX Platform | منصة الكوتش أحمد علي</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDKs (v9 Compat Mode للتشغيل المباشر عبر CDN) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0a0a0a',
+                            darker: '#050505',
+                            red: '#991b1b', // dark red
+                            lightRed: '#ef4444',
+                            gray: '#1f2937'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #991b1b;
+            border-radius: 4px;
+        }
+
+        /* No-select CSS utility for plan protection */
+        .protected-plan {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body class="bg-brand-darker text-white antialiased">
+
+    <!-- Header / Navbar -->
+    <nav class="border-b border-red-950/30 bg-brand-dark/95 sticky top-0 z-50 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-3">
+                    <!-- SVG Fox Weightlifting Logo -->
+                    <div
+                        class="w-12 h-12 bg-brand-red rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-brand-red/20 border border-brand-lightRed/20">
+                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                            <path
+                                d="M12,2A10,10,0,0,0,2,12a9.89,9.89,0,0,0,2.18,6.17l.08.09L8.14,14H4v-2h5.14l3-6h1.72l3,6H20v2H15.86l3.88,4.26.08-.09A9.89,9.89,0,0,0,22,12,10,10,0,0,0,12,2M11.5,8.5a.5.5,0,1,1-.5-.5.5.5,0,0,1,.5.5m2,0a.5.5,0,1,1-.5-.5.5.5,0,0,1,.5.5" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-wider text-white">FOX <span
+                                class="text-brand-lightRed">PLATFORM</span></span>
+                        <p class="text-[10px] text-gray-400 -mt-1 font-semibold">COACH AHMED ALI</p>
+                    </div>
+                </div>
+
+                <!-- Nav Links -->
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="#hero"
+                        class="text-gray-300 hover:text-brand-lightRed font-medium transition-colors">الرئيسية</a>
+                    <a href="#transformations"
+                        class="text-gray-300 hover:text-brand-lightRed font-medium transition-colors">تحولات الأبطال</a>
+                    <a href="#pricing"
+                        class="text-gray-300 hover:text-brand-lightRed font-medium transition-colors">باقات الاشتراك</a>
+                </div>
+
+                <!-- CTA / Login Portal -->
+                <div class="flex items-center gap-2">
+                    <button onclick="showRegisterModal()"
+                        class="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-all text-xs">
+                        انضم كبطل جديد <i class="fa-solid fa-user-plus mr-1"></i>
+                    </button>
+                    <button onclick="showLoginModal()"
+                        class="px-4 py-2.5 rounded-lg bg-gradient-to-l from-brand-red to-red-700 text-white font-bold hover:scale-105 transition-all shadow-lg shadow-brand-red/30 text-xs">
+                        دخول المشتركين <i class="fa-solid fa-right-to-bracket mr-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Containers -->
+    <main>
+
+        <!-- Hero Section -->
+        <section id="hero"
+            class="relative py-20 md:py-32 overflow-hidden border-b border-red-950/20 bg-gradient-to-b from-brand-darker to-brand-dark">
+            <div
+                class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-brand-red/10 via-transparent to-transparent">
+            </div>
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                <!-- Hero Text -->
+                <div class="lg:col-span-7 text-right space-y-6">
+                    <span
+                        class="px-4 py-1.5 rounded-full bg-brand-red/20 text-brand-lightRed text-sm font-bold border border-brand-red/30 inline-block">
+                        المنصة التدريبية الخاصة والأقوى في مصر 🔥
+                    </span>
+                    <h1 class="text-4xl md:text-6xl font-black leading-tight text-white">
+                        غير جسمك وعقليتك مع <br>
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-brand-lightRed to-amber-500">الكوتش
+                            أحمد علي (فوكس)</span>
+                    </h1>
+                    <p class="text-gray-300 text-base md:text-lg max-w-2xl leading-relaxed">
+                        هنا بتبدأ رحلة بطل حقيقي. نظام تدريبي مخصص بالكامل، خطط غذائية مرنة تناسب لايف ستايلك، ومتابعة
+                        دقيقة لكل تفصيلة في تمرينك وتطورك سواء كنت في الجيم أو بتتدرب أونلاين من أي مكان.
+                    </p>
+
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <button onclick="showRegisterModal()"
+                            class="px-8 py-4 rounded-xl bg-gradient-to-l from-brand-red to-red-700 font-extrabold hover:shadow-xl hover:shadow-brand-red/40 transition-all text-center">
+                            ابدأ رحلتك الآن (انضم لنا)
+                        </button>
+                        <button onclick="showDemoLogin()"
+                            class="px-8 py-4 rounded-xl bg-brand-gray/80 hover:bg-brand-gray border border-gray-700 font-bold transition-all text-center">
+                            تجربة المنصة التجريبية <i class="fa-solid fa-circle-play text-brand-lightRed ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hero Image Placeholder -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <div
+                        class="relative w-80 h-[450px] md:w-96 md:h-[500px] rounded-3xl overflow-hidden border-2 border-brand-red/30 shadow-2xl shadow-brand-red/20">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-brand-darker via-transparent to-transparent z-10">
+                        </div>
+                        <img id="coach-image" src="coach23.jpg" alt="Coach Ahmed Ali Fox"
+                            class="w-full h-full object-cover">
+
+                        <!-- Mini Stat box inside image -->
+                        <div
+                            class="absolute bottom-6 right-6 left-6 z-20 bg-brand-dark/90 p-4 rounded-2xl border border-red-950/40 backdrop-blur-md">
+                            <p class="text-xs text-gray-400">الكوتش أحمد علي (فوكس)</p>
+                            <p class="text-md font-bold text-white">مدرب معتمد وأخصائي تغذية وتدريب رياضي</p>
+                            <div class="flex items-center gap-1 mt-2 text-amber-500 text-xs">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <span class="text-white mr-2">(100+ بطل متحول)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Transformation Showcase Section -->
+        <section id="transformations" class="py-24 bg-brand-dark">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <h2 class="text-3xl md:text-5xl font-black">تحولات <span class="text-brand-lightRed">أبطال
+                            FOX</span></h2>
+                    <p class="text-gray-400 text-sm md:text-base">تغيير حقيقي ونتائج ملموسة بنوصلها سوا بالالتزام
+                        والمتابعة العلمية والذكية.</p>
+                </div>
+
+                <!-- Custom Slider / Before-After Columns -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div
+                        class="bg-brand-darker rounded-2xl border border-red-950/20 overflow-hidden hover:border-brand-red/30 transition-all duration-300 shadow-lg group">
+                        <div class="flex divide-x divide-x-reverse divide-red-950/20 h-80 relative overflow-hidden">
+                            <div class="w-1/2 h-full relative">
+                                <span
+                                    class="absolute top-3 right-3 bg-brand-dark/80 px-2 py-1 rounded text-xs font-bold text-red-500 z-10 border border-red-950/50">قبل</span>
+                                <img src="tr1.jpg" alt="البطل قبل"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    onerror="this.src='https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=500&auto=format&fit=crop'">
+                            </div>
+                            <div class="w-1/2 h-full relative">
+                                <span
+                                    class="absolute top-3 right-3 bg-brand-dark/80 px-2 py-1 rounded text-xs font-bold text-emerald-500 z-10 border border-emerald-950/50">بعد</span>
+                                <img src="tr2.jpg" alt="البطل بعد"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    onerror="this.src='https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=500&auto=format&fit=crop'">
+                            </div>
+                        </div>
+                        <div class="p-5 text-right">
+                            <h3 class="font-bold text-lg">تحول البطل.</h3>
+                            <p class="text-xs text-gray-400 mt-1">خسر 22 كيلو دهون واكتسب كتلة عضلية ممتازة خلال 12
+                                أسبوع فقط.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div
+                        class="bg-brand-darker rounded-2xl border border-red-950/20 overflow-hidden hover:border-brand-red/30 transition-all duration-300 shadow-lg group">
+                        <div class="flex divide-x divide-x-reverse divide-red-950/20 h-80 relative overflow-hidden">
+                            <div class="w-1/2 h-full relative">
+                                <span
+                                    class="absolute top-3 right-3 bg-brand-dark/80 px-2 py-1 rounded text-xs font-bold text-red-500 z-10">قبل</span>
+                                <img src="tr3.jpg" alt="قبل" class="w-full h-full object-cover">
+                            </div>
+                            <div class="w-1/2 h-full relative">
+                                <span
+                                    class="absolute top-3 right-3 bg-brand-dark/80 px-2 py-1 rounded text-xs font-bold text-emerald-500 z-10">بعد</span>
+                                <img src="tr4.jpg" alt="بعد" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <div class="p-5 text-right">
+                            <h3 class="font-bold text-lg">تحول البطل.</h3>
+                            <p class="text-xs text-gray-400 mt-1">إعادة تشكيل كاملة للجسم وزيادة رهيبة في مستويات القوة
+                                والأوزان.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div
+                        class="bg-brand-darker rounded-2xl border border-red-950/20 overflow-hidden hover:border-brand-red/30 transition-all duration-300 shadow-lg group">
+                        <div class="flex divide-x divide-x-reverse divide-red-950/20 h-80 relative overflow-hidden">
+                            <div class="w-1/2 h-full relative">
+                                <span
+                                    class="absolute top-3 right-3 bg-brand-dark/80 px-2 py-1 rounded text-xs font-bold text-red-500 z-10">قبل</span>
+                                <img src="tr5.jpg" alt="قبل" class="w-full h-full object-cover">
+                            </div>
+                            <div class="w-1/2 h-full relative">
+                                <span
+                                    class="absolute top-3 right-3 bg-brand-dark/80 px-2 py-1 rounded text-xs font-bold text-emerald-500 z-10">بعد</span>
+                                <img src="tr6.jpg" alt="بعد" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <div class="p-5 text-right">
+                            <h3 class="font-bold text-lg">تحول البطل .</h3>
+                            <p class="text-xs text-gray-400 mt-1">تطور اللياقة البدنية ونزول رهيب في نسبة الدهون العنيدة
+                                حول البطن والخصر.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing & Membership Section -->
+        <section id="pricing" class="py-24 bg-gradient-to-b from-brand-dark to-brand-darker relative">
+            <div
+                class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-brand-red/10 via-transparent to-transparent">
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <span class="text-brand-lightRed text-sm font-black uppercase tracking-widest">اختر خطتك وابدأ
+                        فوراً</span>
+                    <h2 class="text-3xl md:text-5xl font-black">باقات التدريب الخاص بالجيم 🎯</h2>
+                    <p class="text-gray-400 text-sm md:text-base">
+                        باقات التدريب المباشر مع الكوتش شاملة بشكل كامل لخططك التدريبية والغذائية.
+                    </p>
+                </div>
+
+                <!-- Gym Pricing Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+
+                    <!-- Plan 1: 12 Sessions -->
+                    <div
+                        class="bg-brand-dark border border-red-950/20 rounded-2xl p-8 hover:border-brand-red/40 transition-all duration-300 relative flex flex-col justify-between">
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-start">
+                                <span
+                                    class="px-3 py-1 bg-red-950/40 text-brand-lightRed text-xs font-bold rounded-full border border-red-900/30">الأكثر
+                                    اختياراً للمبتدئين</span>
+                                <i class="fa-solid fa-fire text-2xl text-orange-500"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-extrabold">باقة 12 سيشن</h3>
+                                <p class="text-gray-400 text-sm mt-1">مثالية للبدء الصحيح وبناء الأساسيات</p>
+                            </div>
+                            <div class="border-y border-red-950/20 py-4 space-y-2">
+                                <div class="flex items-baseline justify-between">
+                                    <span class="text-gray-400 text-sm">التدريب والمتابعة:</span>
+                                    <span class="text-3xl font-black text-white">1100 <span
+                                            class="text-xs font-normal text-gray-400">جنيه / شهرياً</span></span>
+                                </div>
+                                <div class="flex items-baseline justify-between text-brand-lightRed">
+                                    <span class="text-sm">+ اشتراك الجيم:</span>
+                                    <span class="text-xl font-bold">380 <span
+                                            class="text-xs font-normal">جنيه</span></span>
+                                </div>
+                            </div>
+                            <ul class="space-y-3 text-sm text-gray-300">
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>تصميم الخطة التدريبية المخصصة تماماً للياقة بدنية أعلى.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>تصميم البرنامج الغذائي المناسب لأسلوب حياتك.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>متابعة تفاعلية وتسجيل أوزانك أولاً بأول.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="showRegisterModalWithPlan('gym_12')"
+                            class="w-full py-3.5 rounded-xl bg-brand-gray hover:bg-red-950/20 border border-red-900/40 font-bold transition-all mt-8 text-sm">
+                            سجل واشترك الآن
+                        </button>
+                    </div>
+
+                    <!-- Plan 2: 15 Sessions -->
+                    <div
+                        class="bg-gradient-to-b from-brand-dark to-brand-darker border-2 border-brand-red rounded-2xl p-8 hover:shadow-2xl hover:shadow-brand-red/10 transition-all duration-300 relative flex flex-col justify-between transform md:-translate-y-2">
+                        <div
+                            class="absolute -top-4 right-6 bg-gradient-to-l from-brand-red to-red-700 px-4 py-1.5 rounded-full text-xs font-bold border border-brand-lightRed/25">
+                            الباقة المميزة 🔥</div>
+                        <div class="space-y-6 mt-2">
+                            <div class="flex justify-between items-start">
+                                <span
+                                    class="px-3 py-1 bg-red-950/40 text-brand-lightRed text-xs font-bold rounded-full border border-red-900/30">الأفضل
+                                    للتطور السريع</span>
+                                <i class="fa-solid fa-bolt text-2xl text-amber-500"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-extrabold">باقة 15 سيشن</h3>
+                                <p class="text-gray-400 text-sm mt-1">مثالية للوصول لنتائج متقدمة وثابتة</p>
+                            </div>
+                            <div class="border-y border-red-950/20 py-4 space-y-2">
+                                <div class="flex items-baseline justify-between">
+                                    <span class="text-gray-400 text-sm">التدريب والمتابعة:</span>
+                                    <span class="text-3xl font-black text-white">1200 <span
+                                            class="text-xs font-normal text-gray-400">جنيه / شهرياً</span></span>
+                                </div>
+                                <div class="flex items-baseline justify-between text-brand-lightRed">
+                                    <span class="text-sm">+ اشتراك الجيم:</span>
+                                    <span class="text-xl font-bold">450 <span
+                                            class="text-xs font-normal">جنيه</span></span>
+                                </div>
+                            </div>
+                            <ul class="space-y-3 text-sm text-gray-300">
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>تصميم الخطة التدريبية والغذائية المخصصة.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>متابعة تفصيلية لتطور حجم وشكل العضلات والدهون.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>تسجيل دوري للبروجرس لمستويات الأوزان.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="showRegisterModalWithPlan('gym_15')"
+                            class="w-full py-3.5 rounded-xl bg-gradient-to-l from-brand-red to-red-700 font-extrabold hover:shadow-lg transition-all mt-8 text-sm">
+                            سجل واشترك الآن
+                        </button>
+                    </div>
+
+                    <!-- Plan 3: 25 Sessions -->
+                    <div
+                        class="bg-brand-dark border border-red-950/20 rounded-2xl p-8 hover:border-brand-red/40 transition-all duration-300 relative flex flex-col justify-between">
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-start">
+                                <span
+                                    class="px-3 py-1 bg-red-950/40 text-brand-lightRed text-xs font-bold rounded-full border border-red-900/30">باقة
+                                    الأبطال الملتزمين</span>
+                                <i class="fa-solid fa-trophy text-2xl text-amber-300"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-extrabold">باقة 25 سيشن</h3>
+                                <p class="text-gray-400 text-sm mt-1">تغيير فيزيائي كامل والسرعة القصوى</p>
+                            </div>
+                            <div class="border-y border-red-950/20 py-4 space-y-2">
+                                <div class="flex items-baseline justify-between">
+                                    <span class="text-gray-400 text-sm">التدريب والمتابعة:</span>
+                                    <span class="text-3xl font-black text-white">1300 <span
+                                            class="text-xs font-normal text-gray-400">جنيه / شهرياً</span></span>
+                                </div>
+                                <div class="flex items-baseline justify-between text-brand-lightRed">
+                                    <span class="text-sm">+ اشتراك الجيم:</span>
+                                    <span class="text-xl font-bold">580 <span
+                                            class="text-xs font-normal">جنيه</span></span>
+                                </div>
+                            </div>
+                            <ul class="space-y-3 text-sm text-gray-300">
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>تصميم الخطة التدريبية والغذائية المخصصة.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>متابعة على مدار اليوم عبر الواتساب والمنصة.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>تحديثات وتعديلات دورية للخطة حسب معدل تطورك.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="showRegisterModalWithPlan('gym_25')"
+                            class="w-full py-3.5 rounded-xl bg-brand-gray hover:bg-red-950/20 border border-red-900/40 font-bold transition-all mt-8 text-sm">
+                            سجل واشترك الآن
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- SECTION: ONLINE COACHING -->
+                <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+                    <span class="text-emerald-400 text-sm font-black uppercase tracking-widest">متابعة خاصة من أي مكان
+                        في العالم 🌍</span>
+                    <h2 class="text-3xl md:text-5xl font-black">باقات المتابعة الأونلاين (Online Coaching) 💻</h2>
+                    <p class="text-gray-400 text-sm md:text-base">
+                        تابع تمرينك، أكلك، وتطور جسمك مع الكوتش خطوة بخطوة من خلال المنصة وبدون الحاجة للتواجد معاه في
+                        الجيم.
+                    </p>
+                </div>
+
+                <!-- Online Coaching Pricing Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Online: 2 Months -->
+                    <div
+                        class="bg-brand-dark/50 border border-emerald-950/30 rounded-2xl p-8 hover:border-emerald-500/30 transition-all duration-300 relative flex flex-col justify-between">
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-start">
+                                <span
+                                    class="px-3 py-1 bg-emerald-950/30 text-emerald-400 text-xs font-bold rounded-full border border-emerald-900/20">تأسيس
+                                    وتحسين</span>
+                                <i class="fa-solid fa-calendar-days text-2xl text-emerald-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-extrabold text-white">متابعة أونلاين (شهرين)</h3>
+                                <p class="text-gray-400 text-sm mt-1">بداية التغيير الحقيقي وبناء العادات الصحية</p>
+                            </div>
+                            <div class="border-y border-emerald-950/25 py-4 flex items-baseline justify-between">
+                                <span class="text-gray-400 text-sm">سعر الباقة كاملاً:</span>
+                                <span class="text-3xl font-black text-emerald-400">1800 <span
+                                        class="text-xs font-normal text-gray-400">جنيه</span></span>
+                            </div>
+                            <ul class="space-y-3 text-sm text-gray-300">
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>نظام تدريبي منزلي أو للجيم مخصص لك تماماً.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>دايت مرن محسوب السعرات بدون حرمان.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>متابعة أسبوعية وتحديثات على خطتك.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="showRegisterModalWithPlan('online_2')"
+                            class="w-full py-3.5 rounded-xl bg-emerald-950/30 border border-emerald-900/40 hover:bg-emerald-900/30 font-bold transition-all mt-8 text-sm text-emerald-400">
+                            سجل واشترك الآن أونلاين
+                        </button>
+                    </div>
+
+                    <!-- Online: 3 Months -->
+                    <div
+                        class="bg-gradient-to-b from-brand-dark to-brand-darker border-2 border-emerald-600 rounded-2xl p-8 hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-300 relative flex flex-col justify-between transform md:-translate-y-2">
+                        <div
+                            class="absolute -top-4 right-6 bg-gradient-to-l from-emerald-600 to-teal-700 px-4 py-1.5 rounded-full text-xs font-bold border border-emerald-400/20">
+                            الباقة الأكثر مبيعاً ⚡</div>
+                        <div class="space-y-6 mt-2">
+                            <div class="flex justify-between items-start">
+                                <span
+                                    class="px-3 py-1 bg-emerald-950/30 text-emerald-400 text-xs font-bold rounded-full border border-emerald-900/20">التزام
+                                    ونتيجة مضمونة</span>
+                                <i class="fa-solid fa-bolt text-2xl text-amber-500"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-extrabold text-white">متابعة أونلاين (3 شهور)</h3>
+                                <p class="text-gray-400 text-sm mt-1">المدة الذهبية لإعادة تشكيل الجسم بالكامل</p>
+                            </div>
+                            <div class="border-y border-emerald-950/25 py-4 flex items-baseline justify-between">
+                                <span class="text-gray-400 text-sm">سعر الباقة كاملاً:</span>
+                                <span class="text-3xl font-black text-emerald-400">2900 <span
+                                        class="text-xs font-normal text-gray-400">جنيه</span></span>
+                            </div>
+                            <ul class="space-y-3 text-sm text-gray-300">
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>نظام تدريبي وغذائي مخصص ومطور باستمرار.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>متابعة تفصيلية عبر المنصة وتطبيق الواتساب.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>فيديو كول شهري مع الكوتش لمراجعة التكنيك الرياضي.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="showRegisterModalWithPlan('online_3')"
+                            class="w-full py-3.5 rounded-xl bg-gradient-to-l from-emerald-600 to-teal-700 font-extrabold hover:shadow-lg transition-all mt-8 text-sm text-white">
+                            سجل واشترك الآن أونلاين
+                        </button>
+                    </div>
+
+                    <!-- Online: 6 Months -->
+                    <div
+                        class="bg-brand-dark/50 border border-emerald-950/30 rounded-2xl p-8 hover:border-emerald-500/30 transition-all duration-300 relative flex flex-col justify-between">
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-start">
+                                <span
+                                    class="px-3 py-1 bg-emerald-950/30 text-emerald-400 text-xs font-bold rounded-full border border-emerald-900/20">أسلوب
+                                    حياة جديد</span>
+                                <i class="fa-solid fa-trophy text-2xl text-amber-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-extrabold text-white">متابعة أونلاين (6 شهور)</h3>
+                                <p class="text-gray-400 text-sm mt-1">تغيير فيزيائي جذري وضمان عدم العودة للخلف</p>
+                            </div>
+                            <div class="border-y border-emerald-950/25 py-4 flex items-baseline justify-between">
+                                <span class="text-gray-400 text-sm">سعر الباقة كاملاً:</span>
+                                <span class="text-3xl font-black text-emerald-400">5400 <span
+                                        class="text-xs font-normal text-gray-400">جنيه</span></span>
+                            </div>
+                            <ul class="space-y-3 text-sm text-gray-300">
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>كافة المميزات مع خطط متقدمة وتعديلات مفتوحة.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>أولوية التواصل المباشر مع الكوتش يومياً.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                    <span>أنظمة تثبيت الوزن وكيفية الحفاظ على فورمتك للأبد.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="showRegisterModalWithPlan('online_6')"
+                            class="w-full py-3.5 rounded-xl bg-emerald-950/30 border border-emerald-900/40 hover:bg-emerald-900/30 font-bold transition-all mt-8 text-sm text-emerald-400">
+                            سجل واشترك الآن أونلاين
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Dynamic User Portal Frame -->
+        <section id="user-dashboard" class="hidden py-16 bg-brand-darker min-h-screen">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Dashboard Header -->
+                <div
+                    class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-6 border-b border-red-950/30">
+                    <div>
+                        <h2 class="text-3xl font-black text-white">أهلاً بك يا بطل | <span id="dash-user-name"
+                                class="text-brand-lightRed">تحميل...</span></h2>
+                        <p class="text-gray-400 text-sm mt-1">تابع برامجك التدريبية وأوزانك من مكان واحد</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="showAdminPanel()" id="admin-btn"
+                            class="hidden px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-lg transition-all">
+                            لوحة التحكم للكوتش <i class="fa-solid fa-user-gear mr-1"></i>
+                        </button>
+                        <span id="sub-countdown"
+                            class="px-4 py-2 bg-red-950/50 border border-brand-red/30 rounded-lg text-xs font-bold text-brand-lightRed">
+                            متبقي على اشتراكك: -- يوم
+                        </span>
+                        <button onclick="logout()"
+                            class="px-4 py-2 bg-brand-gray hover:bg-red-950 text-xs font-bold rounded-lg transition-all text-white border border-gray-700">
+                            تسجيل خروج <i class="fa-solid fa-right-from-bracket mr-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+                    <!-- Right Column: Training & Diet Plan View -->
+                    <div class="lg:col-span-8 space-y-6">
+                        <div class="bg-brand-dark border border-red-950/30 rounded-2xl p-6 relative overflow-hidden">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold flex items-center gap-2">
+                                    <i class="fa-solid fa-dumbbell text-brand-lightRed"></i> الخطة التدريبية الحالية
+                                </h3>
+                                <span
+                                    class="text-xs bg-brand-red/20 text-brand-lightRed px-3 py-1 rounded border border-brand-red/30">متاح
+                                    للمشاهدة فقط 🔒</span>
+                            </div>
+
+                            <div id="plan-viewer"
+                                class="protected-plan bg-brand-darker p-6 rounded-xl border border-red-950/20 text-gray-300 space-y-4 text-right min-h-[300px]">
+                                <p class="text-gray-400 text-center py-20">قم بتسجيل الدخول لرؤية خطتك المخصصة.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Left Column: Weight and Progress Tracker -->
+                    <div class="lg:col-span-4 space-y-6">
+
+                        <!-- Mini Weight Logger Form -->
+                        <div class="bg-brand-dark border border-red-950/30 rounded-2xl p-6">
+                            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-chart-line text-emerald-500"></i> تسجيل تقدمك اليومي
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1">الوزن الحالي (كيلوجرام):</label>
+                                    <input type="number" id="log-weight" placeholder="مثال: 82"
+                                        class="w-full px-4 py-2.5 rounded-lg bg-brand-darker border border-red-950/55 text-white focus:outline-none focus:border-brand-red text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1">أعلى وزن شيلته النهاردة (بنش
+                                        برس/سكوات):</label>
+                                    <input type="text" id="log-lift" placeholder="مثال: بنش برس 100 كجم"
+                                        class="w-full px-4 py-2.5 rounded-lg bg-brand-darker border border-red-950/55 text-white focus:outline-none focus:border-brand-red text-sm">
+                                </div>
+                                <button onclick="saveProgress()"
+                                    class="w-full py-2.5 rounded-lg bg-gradient-to-l from-brand-red to-red-700 text-white font-bold text-xs hover:scale-[1.02] transition-all">
+                                    حفظ البيانات <i class="fa-solid fa-save mr-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Progress History Log -->
+                        <div class="bg-brand-dark border border-red-950/30 rounded-2xl p-6">
+                            <h3 class="text-lg font-bold mb-4">سجل تطور بطلنا</h3>
+                            <div id="progress-history" class="space-y-3 max-h-64 overflow-y-auto pr-1">
+                                <p class="text-xs text-gray-500 text-center py-4">سجل تطورك اليومي ليظهر هنا.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Coach Admin Panel Interface -->
+        <section id="coach-admin" class="hidden py-16 bg-brand-dark min-h-screen border-t border-brand-red/30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center mb-10 pb-6 border-b border-red-950/30">
+                    <div>
+                        <h2 class="text-3xl font-black text-amber-500">لوحة تحكم الكوتش أحمد علي (فوكس) 🦊</h2>
+                        <p class="text-gray-400 text-sm mt-1">قم بإدارة طلبات الاشتراك الجديدة وتحديث خطط العملاء
+                            المسجلين.</p>
+                    </div>
+                    <button onclick="hideAdminPanel()"
+                        class="px-4 py-2 bg-brand-gray text-xs font-bold rounded-lg border border-gray-700">
+                        العودة للوحة العميل <i class="fa-solid fa-arrow-left ml-1"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+                    <!-- Admin Form: Add / Edit User -->
+                    <div class="lg:col-span-4 bg-brand-darker border border-amber-500/20 rounded-2xl p-6 space-y-6">
+                        <h3 class="text-lg font-bold text-amber-500 flex items-center gap-2">
+                            <i class="fa-solid fa-user-plus"></i> تسجيل بطل جديد بالمنصة
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">اسم العميل بالكامل:</label>
+                                <input type="text" id="admin-user-name" placeholder="مثال: مصطفى محمود"
+                                    class="w-full px-4 py-2 rounded-lg bg-brand-dark border border-amber-950/60 text-white focus:outline-none focus:border-amber-500 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">رقم الواتساب الخاص بالعميل:</label>
+                                <input type="text" id="admin-user-whatsapp" placeholder="مثال: 01096986768"
+                                    class="w-full px-4 py-2 rounded-lg bg-brand-dark border border-amber-950/60 text-white focus:outline-none focus:border-amber-500 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">كلمة المرور للعميل:</label>
+                                <input type="text" id="admin-user-password" placeholder="مثال: 123456"
+                                    class="w-full px-4 py-2 rounded-lg bg-brand-dark border border-amber-950/60 text-white focus:outline-none focus:border-amber-500 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">باقة ونوع الاشتراك:</label>
+                                <select id="admin-user-plan"
+                                    class="w-full px-4 py-2 rounded-lg bg-brand-dark border border-amber-950/60 text-white focus:outline-none focus:border-amber-500 text-sm">
+                                    <!-- باقات الجيم المباشرة -->
+                                    <optgroup label="باقات التدريب بالجيم">
+                                        <option value="gym_12">جيم - 12 سيشن شهرياً (1100 + 380 جيم)</option>
+                                        <option value="gym_15">جيم - 15 سيشن شهرياً (1200 + 450 جيم)</option>
+                                        <option value="gym_25">جيم - 25 سيشن شهرياً (1300 + 580 جيم)</option>
+                                    </optgroup>
+                                    <!-- باقات الأونلاين المتابعة -->
+                                    <optgroup label="باقات المتابعة الأونلاين">
+                                        <option value="online_2">أونلاين - متابعة لمدة شهرين (1800 جنيه)</option>
+                                        <option value="online_3">أونلاين - متابعة لمدة 3 شهور (2900 جنيه)</option>
+                                        <option value="online_6">أونلاين - متابعة لمدة 6 شهور (5400 جنيه)</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">مدة الاشتراك (أيام):</label>
+                                <input type="number" id="admin-user-days" value="30"
+                                    class="w-full px-4 py-2 rounded-lg bg-brand-dark border border-amber-950/60 text-white focus:outline-none focus:border-amber-500 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">الخطة التدريبية والغذائية للبطل:</label>
+                                <textarea id="admin-user-details" rows="5"
+                                    placeholder="أكتب النظام التدريبي والغذائي المفصل هنا..."
+                                    class="w-full px-4 py-2 rounded-lg bg-brand-dark border border-amber-950/60 text-white focus:outline-none focus:border-amber-500 text-xs leading-relaxed"></textarea>
+                            </div>
+                            <button onclick="createNewClient()"
+                                class="w-full py-3 rounded-lg bg-amber-600 hover:bg-amber-700 font-bold text-xs transition-all text-white">
+                                تسجيل العميل ورفع الخطط <i class="fa-solid fa-check-double mr-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Admin Lists -->
+                    <div class="lg:col-span-8 space-y-8">
+
+                        <!-- Pending Subscription Requests -->
+                        <div class="bg-brand-darker border border-emerald-500/20 rounded-2xl p-6">
+                            <h3 class="text-lg font-bold text-emerald-400 mb-6 flex items-center gap-2">
+                                <i class="fa-solid fa-user-clock"></i> طلبات الاشتراك المعلقة (الأبطال الجدد)
+                            </h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-xs">
+                                    <thead>
+                                        <tr class="border-b border-emerald-950/50 text-gray-400">
+                                            <th class="pb-3 font-semibold">البطل</th>
+                                            <th class="pb-3 font-semibold">الواتساب</th>
+                                            <th class="pb-3 font-semibold">السن / الوزن</th>
+                                            <th class="pb-3 font-semibold">الباقة المطلوبة</th>
+                                            <th class="pb-3 font-semibold">الهدف المطلوب</th>
+                                            <th class="pb-3 font-semibold text-center">التحكم</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-pending-rows" class="divide-y divide-emerald-950/20">
+                                        <!-- Dynamic pending requests -->
+                                        <tr>
+                                            <td colspan="6" class="py-4 text-center text-gray-500">لا توجد طلبات معلقة
+                                                حالياً.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Active Client Manager List -->
+                        <div class="bg-brand-darker border border-amber-500/20 rounded-2xl p-6">
+                            <h3 class="text-lg font-bold text-amber-500 mb-6 flex items-center gap-2">
+                                <i class="fa-solid fa-users-gear"></i> إدارة المشتركين والتحكم في صلاحية الدخول
+                            </h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-xs">
+                                    <thead>
+                                        <tr class="border-b border-amber-950/50 text-gray-400">
+                                            <th class="pb-3 font-semibold">البطل</th>
+                                            <th class="pb-3 font-semibold">الواتساب</th>
+                                            <th class="pb-3 font-semibold">نوع الباقة</th>
+                                            <th class="pb-3 font-semibold">الأيام المتبقية</th>
+                                            <th class="pb-3 font-semibold text-center">حالة الاشتراك</th>
+                                            <th class="pb-3 font-semibold text-center">التحكم</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-client-rows" class="divide-y divide-amber-950/20">
+                                        <!-- Dynamic active users -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-darker border-t border-red-950/30 py-12">
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-right">
+            <div>
+                <span class="text-lg font-black tracking-wider text-white">FOX <span
+                        class="text-brand-lightRed">PLATFORM</span></span>
+                <p class="text-xs text-gray-400 mt-1">جميع الحقوق محفوظة للكوتش أحمد علي © 2026. تصميم مميز ومؤمن كلياً.
+                </p>
+            </div>
+            <div class="flex items-center gap-4 text-xl">
+                <a href="https://www.instagram.com/ahmed_ali_123686/" target="_blank"
+                    class="text-gray-400 hover:text-brand-lightRed transition-all"><i
+                        class="fa-brands fa-instagram"></i></a>
+
+                <a href="https://wa.me/message/QZ5F4AX4NY6DC1" target="_blank"
+                    class="text-gray-400 hover:text-brand-lightRed transition-all"><i
+                        class="fa-brands fa-whatsapp"></i></a>
+
+                <a href="https://www.facebook.com/profile.php?id=100088685774613" target="_blank"
+                    class="text-gray-400 hover:text-brand-lightRed transition-all"><i
+                        class="fa-brands fa-facebook"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LOGIN MODAL -->
+    <div id="login-modal"
+        class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-brand-dark border border-red-950/40 w-full max-w-md rounded-2xl p-8 relative space-y-6">
+            <button onclick="hideLoginModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="text-center space-y-2">
+                <div
+                    class="w-16 h-16 bg-brand-red rounded-2xl flex items-center justify-center text-white font-bold mx-auto border border-brand-lightRed/20">
+                    <i class="fa-solid fa-shield-halved text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold">بوابة المشتركين الأبطال</h3>
+                <p class="text-xs text-gray-400">سجل دخولك لمشاهدة خطتك والبروجرس الخاص بك</p>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1.5">رقم الواتس اب المسجل به:</label>
+                    <input type="text" id="login-phone" placeholder="مثال: 01096986768"
+                        class="w-full px-4 py-3 rounded-xl bg-brand-darker border border-red-950 text-white focus:outline-none focus:border-brand-red text-sm text-center">
+                </div>
+
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1.5">كلمة المرور:</label>
+                    <input type="password" id="login-password" placeholder="••••••••"
+                        class="w-full px-4 py-3 rounded-xl bg-brand-darker border border-red-950 text-white focus:outline-none focus:border-brand-red text-sm text-center">
+                </div>
+
+                <button onclick="handleLogin()"
+                    class="w-full mt-3 py-3.5 rounded-xl bg-gradient-to-l from-brand-red to-red-700 font-bold hover:shadow-lg transition-all text-sm">
+                    تسجيل الدخول للمنصة <i class="fa-solid fa-right-to-bracket mr-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW JOIN MODAL (فورم تسجيل الأبطال الجدد) -->
+    <div id="register-modal"
+        class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div
+            class="bg-brand-dark border border-emerald-950/40 w-full max-w-md rounded-2xl p-6 relative space-y-4 overflow-y-auto max-h-[90vh]">
+            <button onclick="hideRegisterModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="text-center space-y-2">
+                <div
+                    class="w-14 h-14 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-bold mx-auto border border-emerald-400/20">
+                    <i class="fa-solid fa-user-plus text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold">التسجيل كبطل جديد 🏆</h3>
+                <p class="text-xs text-gray-400">املأ بياناتك وانضم لأقوى نظام متابعة وتدريب</p>
+            </div>
+
+            <div class="space-y-3 text-right">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">الاسم بالكامل:</label>
+                    <input type="text" id="reg-name" placeholder="مثال: أحمد مصطفى"
+                        class="w-full px-4 py-2 rounded-xl bg-brand-darker border border-emerald-950/60 text-white focus:outline-none focus:border-emerald-500 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">رقم الواتساب:</label>
+                    <input type="text" id="reg-phone" placeholder="مثال: 01096986768"
+                        class="w-full px-4 py-2 rounded-xl bg-brand-darker border border-emerald-950/60 text-white focus:outline-none focus:border-emerald-500 text-sm text-center">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">السن:</label>
+                        <input type="number" id="reg-age" placeholder="مثال: 22"
+                            class="w-full px-4 py-2 rounded-xl bg-brand-darker border border-emerald-950/60 text-white focus:outline-none focus:border-emerald-500 text-sm text-center">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">الوزن الحالي (كجم):</label>
+                        <input type="number" id="reg-weight" placeholder="مثال: 80"
+                            class="w-full px-4 py-2 rounded-xl bg-brand-darker border border-emerald-950/60 text-white focus:outline-none focus:border-emerald-500 text-sm text-center">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">نوع الاشتراك والباقة المطلوبة:</label>
+                    <select id="reg-plan"
+                        class="w-full px-4 py-2 rounded-xl bg-brand-darker border border-emerald-950/60 text-white focus:outline-none focus:border-emerald-500 text-sm">
+                        <option value="">-- اختر الباقة التي تريد التسجيل بها --</option>
+                        <optgroup label="باقات التدريب بالجيم (مباشر)">
+                            <option value="gym_12">جيم - 12 سيشن شهرياً (1100 + 380 جيم)</option>
+                            <option value="gym_15">جيم - 15 سيشن شهرياً (1200 + 450 جيم)</option>
+                            <option value="gym_25">جيم - 25 سيشن شهرياً (1300 + 580 جيم)</option>
+                        </optgroup>
+                        <optgroup label="باقات المتابعة الأونلاين">
+                            <option value="online_2">أونلاين - متابعة لمدة شهرين (1800 جنيه)</option>
+                            <option value="online_3">أونلاين - متابعة لمدة 3 شهور (2900 جنيه)</option>
+                            <option value="online_6">أونلاين - متابعة لمدة 6 شهور (5400 جنيه)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">ما هو هدفك الرياضي؟</label>
+                    <textarea id="reg-goal" rows="2" placeholder="مثال: تنشيف وخسارة دهون مع زيادة عضلية"
+                        class="w-full px-4 py-2 rounded-xl bg-brand-darker border border-emerald-950/60 text-white focus:outline-none focus:border-emerald-500 text-xs leading-relaxed"></textarea>
+                </div>
+
+                <button onclick="handleRegister()"
+                    class="w-full mt-2 py-3 rounded-xl bg-gradient-to-l from-emerald-600 to-teal-700 font-bold hover:shadow-lg transition-all text-sm text-white">
+                    إرسال طلب الانضمام وتفعيل الحساب <i class="fa-solid fa-paper-plane mr-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT LOGIC (Firebase Config & Integration) -->
+    <!-- Firebase App and Database SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+    <script>
+        // ربط قاعدة البيانات الخاصة بك
+        const firebaseConfig = {
+            databaseURL: "https://cappfoxx-81288-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // بيانات بوت التليجرام الخاص بك المدمج بالـ API
+        const TELEGRAM_BOT_TOKEN = "8766022964:AAExCAC0CI4YuAuwM7A6Zsa8f9dXOGXP8LA";
+        const COACH_TELEGRAM_CHAT_ID = "2122787977";
+
+        // State variables
+        let appState = {
+            currentUser: null,
+            users: [],
+            pendingRequests: []
+        };
+
+        // ترجمة مسميات الباقات لعرضها بشكل جميل ومفهوم
+        const PLAN_TRANSLATIONS = {
+            "gym_12": "جيم - 12 سيشن",
+            "gym_15": "جيم - 15 سيشن",
+            "gym_25": "جيم - 25 سيشن",
+            "online_2": "أونلاين - شهرين",
+            "online_3": "أونلاين - 3 شهور",
+            "online_6": "أونلاين - 6 شهور"
+        };
+
+        // الـ Admin الافتراضي لوحة التحكم للكوتش
+        const ADMIN_USER = {
+            name: "الكوتش أحمد علي",
+            whatsapp: "01227586435",
+            password: "admin_cappfoxx",
+            planType: "المدرب الشخصي",
+            daysLeft: 9999,
+            active: true,
+            isAdmin: true,
+            details: "مرحباً بك يا كوتش فوكس في لوحتك القيادية الفائقة.",
+            logs: []
+        };
+
+        // دالة لجلب البيانات من الـ Firebase
+        function fetchUsersFromFirebase() {
+            // جلب المستخدمين العاديين والأدمن
+            db.ref("users").on("value", (snapshot) => {
+                const data = snapshot.val();
+                let userList = [];
+
+                if (data) {
+                    userList = Object.keys(data).map(key => ({
+                        id: key,
+                        ...data[key]
+                    }));
+                }
+
+                // التأكد من وجود الكوتش دائمًا كأدمن
+                const hasAdmin = userList.some(u => u.isAdmin === true);
+                if (!hasAdmin) {
+                    userList.push(ADMIN_USER);
+                }
+
+                appState.users = userList;
+
+                // تحديث الشاشة لو المستخدم مسجل دخوله حالياً
+                if (appState.currentUser) {
+                    const updatedMe = appState.users.find(u => u.whatsapp === appState.currentUser.whatsapp);
+                    if (updatedMe) {
+                        appState.currentUser = updatedMe;
+                        renderDashboard();
+                    }
+                }
+
+                // تحديث لوحة التحكم لو مفتوحة
+                if (!document.getElementById('coach-admin').classList.contains('hidden')) {
+                    renderAdminClients();
+                }
+            });
+
+            // جلب طلبات الاشتراك الجديدة المعلقة
+            db.ref("pending_requests").on("value", (snapshot) => {
+                const data = snapshot.val();
+                let pendingList = [];
+
+                if (data) {
+                    pendingList = Object.keys(data).map(key => ({
+                        id: key,
+                        ...data[key]
+                    }));
+                }
+
+                appState.pendingRequests = pendingList;
+
+                // تحديث لوحة التحكم لو مفتوحة
+                if (!document.getElementById('coach-admin').classList.contains('hidden')) {
+                    renderPendingRequests();
+                }
+            });
+        }
+
+        // بدء جلب البيانات فور تحميل الصفحة
+        window.onload = function () {
+            fetchUsersFromFirebase();
+        };
+
+        // حماية الخطة التدريبية من النسخ والسرقة
+        function enablePlanProtection() {
+            const viewer = document.getElementById('plan-viewer');
+            if (viewer) {
+                viewer.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    alert("⚠️ هذه الخطة محمية وحصرية لمشتركي الكوتش أحمد علي.");
+                });
+                viewer.addEventListener('dragstart', (e) => e.preventDefault());
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'F12' ||
+                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) ||
+                    (e.ctrlKey && e.key === 's') || (e.ctrlKey && e.key === 'p')) {
+                    e.preventDefault();
+                }
+            });
+        }
+
+        // Modal Controls
+        function showLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+        }
+
+        function hideLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+            document.getElementById('login-phone').value = '';
+            document.getElementById('login-password').value = '';
+        }
+
+        function showRegisterModal() {
+            document.getElementById('register-modal').classList.remove('hidden');
+        }
+
+        function showRegisterModalWithPlan(planValue) {
+            showRegisterModal();
+            const selectElement = document.getElementById('reg-plan');
+            if (selectElement) {
+                selectElement.value = planValue;
+            }
+        }
+
+        function hideRegisterModal() {
+            document.getElementById('register-modal').classList.add('hidden');
+            document.getElementById('reg-name').value = '';
+            document.getElementById('reg-phone').value = '';
+            document.getElementById('reg-age').value = '';
+            document.getElementById('reg-weight').value = '';
+            document.getElementById('reg-plan').value = '';
+            document.getElementById('reg-goal').value = '';
+        }
+
+        // زر التجربة يملأ البيانات التجريبية تلقائياً
+        function showDemoLogin() {
+            showLoginModal();
+            document.getElementById('login-phone').value = "01096986768";
+            document.getElementById('login-password').value = "123456";
+        }
+
+        // تسجيل الدخول بالرقم والباسورد
+        function handleLogin() {
+            const phone = document.getElementById('login-phone').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            if (!phone || !password) {
+                alert("برجاء إدخال رقم الواتس اب وكلمة المرور.");
+                return;
+            }
+
+            const user = appState.users.find(u => u.whatsapp === phone);
+            if (!user) {
+                alert("❌ عذراً، رقم الهاتف غير مسجل. يرجى الضغط على زر (انضم كبطل جديد) للتسجيل أولاً.");
+                return;
+            }
+
+            if (user.password !== password) {
+                alert("❌ عذراً، كلمة المرور غير صحيحة!");
+                return;
+            }
+
+            if (!user.active) {
+                alert("🔒 عذراً، هذا الحساب موقوف حالياً أو انتهى اشتراكه. يرجى مراجعة الكوتش لتفعيل الاشتراك.");
+                return;
+            }
+
+            appState.currentUser = user;
+            hideLoginModal();
+            renderDashboard();
+        }
+
+        // إرسال طلب اشتراك جديد للبوت والفايربيس
+        function handleRegister() {
+            const name = document.getElementById('reg-name').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const age = document.getElementById('reg-age').value.trim();
+            const weight = document.getElementById('reg-weight').value.trim();
+            const plan = document.getElementById('reg-plan').value;
+            const goal = document.getElementById('reg-goal').value.trim();
+
+            if (!name || !phone || !age || !weight || !plan || !goal) {
+                alert("يرجى ملء جميع الحقول واختيار الباقة لتسجيل طلبك!");
+                return;
+            }
+
+            const planText = PLAN_TRANSLATIONS[plan] || plan;
+
+            // تجهيز البيانات
+            const newRequest = {
+                name: name,
+                whatsapp: phone,
+                age: age,
+                weight: weight,
+                planType: plan,
+                goal: goal,
+                timestamp: new Date().toISOString()
+            };
+
+            // 1. رفع الطلب للفايربيس كطلب معلق
+            db.ref("pending_requests").push(newRequest)
+                .then(() => {
+                    // 2. إرسال الإشعار الفوري لبوت تليجرام الخاص بالكوتش أحمد
+                    const message = `
+🔥 طلب اشتراك جديد لمنصة FOX!
+━━━━━━━━━━━━━━━
+• الاسم: ${name}
+• الهاتف: ${phone}
+• السن: ${age} سنة
+• الوزن: ${weight} كجم
+• الباقة المطلوبة: ${planText}
+• الهدف: ${goal}
+━━━━━━━━━━━━━━━
+📲 يمكنك الآن الدخول للوحة التحكم وقبول العميل فوراً!
+                    `;
+
+                    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            chat_id: COACH_TELEGRAM_CHAT_ID,
+                            text: message
+                        })
+                    })
+                        .then(() => {
+                            alert("💪 تم إرسال طلبك بنجاح يا بطل! تم إشعار الكوتش أحمد علي عبر تليجرام وسوف يتواصل معك لتفعيل الحساب.");
+                            hideRegisterModal();
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert("تم تسجيل طلبك بالمنصة، وسيتواصل معك الكوتش قريباً.");
+                            hideRegisterModal();
+                        });
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("حدث خطأ ما أثناء الإرسال، برجاء المحاولة لاحقاً.");
+                });
+        }
+
+        function logout() {
+            appState.currentUser = null;
+            document.getElementById('user-dashboard').classList.add('hidden');
+            document.getElementById('coach-admin').classList.add('hidden');
+            document.getElementById('hero').classList.remove('hidden');
+            document.getElementById('transformations').classList.remove('hidden');
+            document.getElementById('pricing').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // عرض لوحة المشترك
+        function renderDashboard() {
+            const user = appState.currentUser;
+            if (!user) return;
+
+            document.getElementById('hero').classList.add('hidden');
+            document.getElementById('transformations').classList.add('hidden');
+            document.getElementById('pricing').classList.add('hidden');
+
+            document.getElementById('user-dashboard').classList.remove('hidden');
+            document.getElementById('dash-user-name').innerText = user.name;
+            document.getElementById('sub-countdown').innerText = `متبقي على اشتراكك: ${user.daysLeft} يوم`;
+
+            const planViewer = document.getElementById('plan-viewer');
+            planViewer.innerHTML = `<pre class="whitespace-pre-wrap font-cairo leading-relaxed text-sm">${user.details}</pre>`;
+
+            if (user.isAdmin) {
+                document.getElementById('admin-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('admin-btn').classList.add('hidden');
+            }
+
+            renderHistoryLogs();
+            enablePlanProtection();
+        }
+
+        // حفظ تطورات البطل في Firebase
+        function saveProgress() {
+            const weight = parseFloat(document.getElementById('log-weight').value);
+            const lift = document.getElementById('log-lift').value.trim();
+
+            if (!weight || !lift) {
+                alert("يرجى ملء وزنك وأوزان تمرينك لتسجيل التطور.");
+                return;
+            }
+
+            const today = new Date().toISOString().slice(0, 10);
+            const newLog = { date: today, weight: weight, lift: lift };
+
+            if (!appState.currentUser.logs) {
+                appState.currentUser.logs = [];
+            }
+
+            const updatedLogs = [newLog, ...appState.currentUser.logs];
+
+            if (appState.currentUser.isAdmin) {
+                appState.currentUser.logs = updatedLogs;
+                renderHistoryLogs();
+                alert("💪 تم تسجيل التطور محلياً للأدمن!");
+                return;
+            }
+
+            db.ref("users/" + appState.currentUser.id + "/logs").set(updatedLogs)
+                .then(() => {
+                    document.getElementById('log-weight').value = '';
+                    document.getElementById('log-lift').value = '';
+                    alert("💪 عاش يا بطل! تم تسجيل تطورك وحفظه في حسابك بنجاح.");
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("حدث خطأ أثناء الحفظ، يرجى المحاولة لاحقاً.");
+                });
+        }
+
+        function renderHistoryLogs() {
+            const historyContainer = document.getElementById('progress-history');
+            if (!historyContainer) return;
+            historyContainer.innerHTML = '';
+
+            const logs = appState.currentUser.logs || [];
+
+            if (logs.length === 0) {
+                historyContainer.innerHTML = '<p class="text-xs text-gray-500 text-center py-4">سجل تطورك اليومي ليظهر هنا.</p>';
+                return;
+            }
+
+            logs.forEach(log => {
+                const item = document.createElement('div');
+                item.className = "p-3 bg-brand-darker rounded-lg border border-red-950/20 flex justify-between items-center text-xs";
+                item.innerHTML = `
+                    <span class="text-gray-400">${log.date}</span>
+                    <span class="font-bold text-emerald-400">الوزن: ${log.weight} كجم</span>
+                    <span class="text-gray-300 font-semibold">${log.lift}</span>
+                `;
+                historyContainer.appendChild(item);
+            });
+        }
+
+        // لوحة تحكم الكوتش
+        function showAdminPanel() {
+            document.getElementById('user-dashboard').classList.add('hidden');
+            document.getElementById('coach-admin').classList.remove('hidden');
+            renderAdminClients();
+            renderPendingRequests();
+        }
+
+        function hideAdminPanel() {
+            document.getElementById('coach-admin').classList.add('hidden');
+            document.getElementById('user-dashboard').classList.remove('hidden');
+        }
+
+        // عرض طلبات الاشتراك المعلقة
+        function renderPendingRequests() {
+            const container = document.getElementById('admin-pending-rows');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const reqs = appState.pendingRequests;
+
+            if (reqs.length === 0) {
+                container.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="py-4 text-center text-gray-500">لا توجد طلبات معلقة حالياً.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            reqs.forEach((req) => {
+                const planLabel = PLAN_TRANSLATIONS[req.planType] || req.planType || "غير محدد";
+                const row = document.createElement('tr');
+                row.className = "border-b border-emerald-950/10 hover:bg-emerald-950/5 transition-all";
+                row.innerHTML = `
+                    <td class="py-4 font-bold text-white">${req.name}</td>
+                    <td class="py-4 text-gray-300 font-mono">${req.whatsapp}</td>
+                    <td class="py-4 text-gray-300">${req.age} سنة / ${req.weight} كجم</td>
+                    <td class="py-4 text-emerald-400 font-semibold">${planLabel}</td>
+                    <td class="py-4 text-gray-400 max-w-xs truncate">${req.goal}</td>
+                    <td class="py-4 text-center space-x-2 space-x-reverse">
+                        <button onclick="approveRequest('${req.id}')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-[11px] rounded transition-all text-white font-bold">
+                            قبول وتفعيل الحساب ✅
+                        </button>
+                        <button onclick="rejectRequest('${req.id}')" class="px-3 py-1.5 bg-red-900/50 hover:bg-red-800 text-[11px] rounded transition-all text-white">
+                            رفض الطلب ❌
+                        </button>
+                    </td>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // قبول العميل ونقله للمستخدمين الفعالين في الفايربيس
+        function approveRequest(reqId) {
+            const request = appState.pendingRequests.find(r => r.id === reqId);
+            if (!request) return;
+
+            // تحديد مدة الأيام الافتراضية بناءً على الباقة المختارة
+            let defaultDays = 30;
+            if (request.planType === 'online_2') defaultDays = 60;
+            else if (request.planType === 'online_3') defaultDays = 90;
+            else if (request.planType === 'online_6') defaultDays = 180;
+
+            // نملأ الفورم الخاص بالتسجيل تلقائياً لتسهيل إنشاء حسابه
+            document.getElementById('admin-user-name').value = request.name;
+            document.getElementById('admin-user-whatsapp').value = request.whatsapp;
+            document.getElementById('admin-user-password').value = "123456"; // باسورد افتراضي للعميل الجديد
+            document.getElementById('admin-user-plan').value = request.planType || "gym_12";
+            document.getElementById('admin-user-days').value = defaultDays;
+            document.getElementById('admin-user-details').value = `الهدف المكتوب من البطل أثناء التسجيل:\n(${request.goal})\n\n-- اكتب خطة التدريب والتغذية هنا يا كوتش --`;
+
+            // نحذف الطلب المعلق بعد ملء البيانات لمراجعته وتسجيله رسمياً
+            db.ref("pending_requests/" + reqId).remove()
+                .then(() => {
+                    alert(`✅ تم جلب بيانات البطل ${request.name} إلى فورم الإضافة على اليمين. اكتب خطته واضغط "تسجيل العميل" لإتمام تفعيل حسابه رسميًا وباسورد الدخول الافتراضي هو: 123456`);
+                });
+        }
+
+        // رفض وحذف طلب اشتراك معلق
+        function rejectRequest(reqId) {
+            if (confirm("هل أنت متأكد من رغبتك في حذف هذا الطلب؟")) {
+                db.ref("pending_requests/" + reqId).remove();
+            }
+        }
+
+        // عرض قائمة العملاء الفعالين
+        function renderAdminClients() {
+            const container = document.getElementById('admin-client-rows');
+            if (!container) return;
+            container.innerHTML = '';
+
+            appState.users.forEach((user) => {
+                if (user.isAdmin) return;
+
+                const planLabel = PLAN_TRANSLATIONS[user.planType] || user.planType || "غير محدد";
+
+                const row = document.createElement('tr');
+                row.className = "border-b border-amber-950/10 hover:bg-amber-950/5 transition-all";
+                row.innerHTML = `
+                    <td class="py-4 font-bold text-white">${user.name}</td>
+                    <td class="py-4 text-gray-300 font-mono">${user.whatsapp}</td>
+                    <td class="py-4 text-gray-300 font-semibold">${planLabel}</td>
+                    <td class="py-4 font-bold text-amber-500 font-mono">${user.daysLeft} يوم</td>
+                    <td class="py-4 text-center">
+                        <span class="px-2 py-1 text-[10px] font-bold rounded-full ${user.active ? 'bg-emerald-950/40 text-emerald-400 border border-emerald-900/40' : 'bg-red-950/40 text-red-400 border border-red-900/40'}">
+                            ${user.active ? 'نشط ومفعل' : 'موقوف الاشتراك'}
+                        </span>
+                    </td>
+                    <td class="py-4 text-center space-x-2 space-x-reverse">
+                        <button onclick="toggleUserStatus('${user.id}', ${user.active})" class="px-2.5 py-1 bg-brand-gray border border-gray-700 hover:bg-brand-red text-[11px] rounded transition-all text-white">
+                            ${user.active ? 'إيقاف الاشتراك 🔒' : 'تفعيل الاشتراك 🔓'}
+                        </button>
+                        <button onclick="editUserPlan('${user.id}')" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-[11px] rounded transition-all text-white">
+                            تحديث الخطة 📋
+                        </button>
+                    </td>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function toggleUserStatus(userId, currentStatus) {
+            if (!userId || userId === 'undefined') return;
+            db.ref("users/" + userId + "/active").set(!currentStatus);
+        }
+
+        function editUserPlan(userId) {
+            if (!userId || userId === 'undefined') return;
+            const user = appState.users.find(u => u.id === userId);
+            if (!user) return;
+
+            document.getElementById('admin-user-name').value = user.name;
+            document.getElementById('admin-user-whatsapp').value = user.whatsapp;
+            document.getElementById('admin-user-password').value = user.password || '';
+            document.getElementById('admin-user-plan').value = user.planType || 'gym_12';
+            document.getElementById('admin-user-days').value = user.daysLeft;
+            document.getElementById('admin-user-details').value = user.details;
+
+            document.getElementById('admin-user-name').focus();
+        }
+
+        function createNewClient() {
+            const name = document.getElementById('admin-user-name').value.trim();
+            const whatsapp = document.getElementById('admin-user-whatsapp').value.trim();
+            const password = document.getElementById('admin-user-password').value.trim() || '123456';
+            const planType = document.getElementById('admin-user-plan').value;
+            const days = parseInt(document.getElementById('admin-user-days').value) || 30;
+            const details = document.getElementById('admin-user-details').value.trim();
+
+            if (!name || !whatsapp || !details) {
+                alert("يرجى ملء جميع بيانات العميل وتفاصيل الخطة لرفعها بنجاح.");
+                return;
+            }
+
+            const existingUser = appState.users.find(u => u.whatsapp === whatsapp && !u.isAdmin);
+
+            const userData = {
+                name: name,
+                whatsapp: whatsapp,
+                password: password,
+                planType: planType,
+                daysLeft: days,
+                active: true,
+                details: details
+            };
+
+            if (existingUser) {
+                db.ref("users/" + existingUser.id).update(userData)
+                    .then(() => {
+                        alert(`📋 تم تحديث بيانات خطة البطل: ${name} بنجاح!`);
+                        clearAdminForm();
+                    });
+            } else {
+                userData.logs = [];
+                db.ref("users").push(userData)
+                    .then(() => {
+                        alert(`✨ مبارك يا كوتش! تم تسجيل البطل ${name} بنجاح.`);
+                        clearAdminForm();
+                    });
+            }
+        }
+
+        function clearAdminForm() {
+            document.getElementById('admin-user-name').value = '';
+            document.getElementById('admin-user-whatsapp').value = '';
+            document.getElementById('admin-user-password').value = '';
+            document.getElementById('admin-user-days').value = '30';
+            document.getElementById('admin-user-details').value = '';
+        }
+    </script>
+</body>
+
+</html>
